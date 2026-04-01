@@ -11,6 +11,7 @@ def extract_ip(line):
 
 
 def analyze_log(file_path):
+    """Analyze a log file and return structured results."""
     total_lines = 0
     failed_attempts = 0
     successful_logins = 0
@@ -51,37 +52,45 @@ def analyze_log(file_path):
     }
 
 
-def print_report(results):
+def generate_report_string(results):
+    """Convert analysis results into a formatted report string."""
     if "error" in results:
-        print(results["error"])
-        return
+        return f"ERROR: {results['error']}"
 
-    print("=" * 50)
-    print("LOG ANALYSIS REPORT")
-    print("=" * 50)
-    print(f"Total log lines: {results['total_lines']}")
-    print(f"Successful logins: {results['successful_logins']}")
-    print(f"Failed login attempts: {results['failed_attempts']}")
-    print()
+    output = []
+    output.append("LogSentry Analysis Started...")
+    output.append("")
+    output.append("=" * 50)
+    output.append("LOG ANALYSIS REPORT")
+    output.append("=" * 50)
+    output.append(f"Total log lines: {results['total_lines']}")
+    output.append(f"Successful logins: {results['successful_logins']}")
+    output.append(f"Failed login attempts: {results['failed_attempts']}")
+    output.append("")
 
     if results["failed_ips"]:
-        print("Failed login attempts by IP:")
+        output.append("Failed login attempts by IP:")
         for ip, count in results["failed_ips"].items():
-            print(f"  {ip}: {count}")
-        print()
+            output.append(f"  {ip}: {count}")
+        output.append("")
     else:
-        print("No failed login attempts found.\n")
+        output.append("No failed login attempts found.")
+        output.append("")
 
     if results["suspicious_ips"]:
-        print("Suspicious IPs flagged:")
+        output.append("Suspicious IPs flagged:")
         for ip, count in results["suspicious_ips"].items():
-            print(f"  ALERT: {ip} had {count} failed login attempts")
+            output.append(f"  ALERT: {ip} had {count} failed login attempts")
     else:
-        print("No suspicious IPs met the alert threshold.")
+        output.append("No suspicious IPs met the alert threshold.")
 
-    print("=" * 50)
+    output.append("=" * 50)
+    output.append("")
+    output.append("Analysis Complete.")
+
+    return "\n".join(output)
 
 
 if __name__ == "__main__":
     report = analyze_log("sample_log.txt")
-    print_report(report)
+    print(generate_report_string(report))
