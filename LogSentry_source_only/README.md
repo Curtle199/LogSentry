@@ -119,6 +119,8 @@ LogSentry can generate:
 Add screenshots here for the GitHub repo / LinkedIn post, for example:
 
 - Main dashboard
+- <img width="3839" height="2108" alt="image" src="https://github.com/user-attachments/assets/f2360768-041c-467a-8370-d9567aaefb74" />
+
 - ATT&CK tab
 - Per-source results tab
 - Visuals tab
